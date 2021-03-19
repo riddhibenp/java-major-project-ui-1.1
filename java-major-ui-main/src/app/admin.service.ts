@@ -2,14 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { environment } from '../environments/environment.prod'
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Category } from './category';
+import { map, catchError } from 'rxjs/operators';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
+  [x: string]: any;
+  len= new BehaviorSubject<any>(0)
+ lenupdate=this.len.asObservable()
+
+
   
   constructor(private http: HttpClient) {
     // this.http.get(environment.baseUserUrl);
@@ -17,7 +23,13 @@ export class AdminService {
 
   getCategories(): Observable<any> {
     console.log(environment.baseCategoryUrl)
-    return this.http.get<any>(environment.baseCategoryUrl);
+    return this.http.get<any>(environment.baseCategoryUrl) .pipe(
+      catchError((err) => {
+        console.log('error caught in service')
+        console.error(err);
+        return throwError(err);
+      })
+    )
   }
   
   getCourses(): Observable<any> {
@@ -107,6 +119,20 @@ export class AdminService {
     
     return this.http.put<any>(environment.baseUserUrl+"/unlockuser/"+userId, {userId})
   }
+
+ 
+ 
+ 
+  getLockedUsers(): Observable<any>{
+    return this.http.get<any>(environment.baseUserUrl+"/lockedusers")
+  }
+ 
+  updateCartSizeData(){
+    this.getLockedUsers().subscribe((data1) => {
+      console.log("The cart data ",data1)
+      this.len.next(data1.length)
+    })
+}
 
 
 

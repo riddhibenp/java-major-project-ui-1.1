@@ -46,8 +46,10 @@ export class LockedUserNotificationComponent implements OnInit {
         
   
         this.as.unlockUserById(id).subscribe((data:any)=>{
+
              console.log(data);
             this.getLocalUsers()
+            this.as.updateCartSizeData()
         }, (err)=>{
           console.log('Error is:',err);
           

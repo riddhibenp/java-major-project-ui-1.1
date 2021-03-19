@@ -18,6 +18,7 @@ export class ViewCategoryComponent implements OnInit {
   categories: any
  categoryById:any
   search=""
+  errorMessage!:String;
   constructor(private as: AdminService,private router: Router,public dialog: MatDialog) { 
   }
   
@@ -62,18 +63,19 @@ export class ViewCategoryComponent implements OnInit {
   }
 
   getLocalCategories(){
+   
     this.as.getCategories()
     .subscribe((data)=>{
       
       
       this.categories=data;
       console.log(this.categories);
-      // console.log("glfjkdsghlgkjds");
       
     },
     (err)=>{
       console.log('Error is:',err);
-      
+      this.errorMessage = err;
+      throw err;
     });
   }
 }
