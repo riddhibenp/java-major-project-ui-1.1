@@ -31,10 +31,10 @@ export class LockedUserNotificationComponent implements OnInit {
 
 
   unlockUser(id:number){
-    // this.as.unlockUserById(this.users.value.userId).subscribe((data:any)=>{
+   
        console.log(id);
       
-    // });
+  
     let dialogref=  this.dialog.open(DialogBoxComponent, {
       width: '250px',
       data: {id:id}

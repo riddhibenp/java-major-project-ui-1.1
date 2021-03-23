@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { environment } from '../environments/environment.prod'
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
@@ -23,9 +23,11 @@ export class AdminService {
 
   getCategories(): Observable<any> {
     console.log(environment.baseCategoryUrl)
-    return this.http.get<any>(environment.baseCategoryUrl) .pipe(
-      catchError((err) => {
-        console.log('error caught in service')
+    return this.http.get<any>(environment.baseCategoryUrl)
+     .pipe(
+      map(res => res),
+      catchError((err: HttpErrorResponse) => {
+        alert('error caught in service')
         console.error(err);
         return throwError(err);
       })

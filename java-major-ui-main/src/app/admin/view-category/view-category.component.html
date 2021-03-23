@@ -4,8 +4,7 @@
           <a class="btn btn-primary myBtn" routerLink="/add-category"><i class="fas fa-plus pe-2"></i>New Category</a>
         </div>
   </div>
-  <div *ngIf="errorMessage" class="alert alert-warning">
-    <strong>Warning!</strong> {{errorMessage | json}}
+  <div class="error">{{errorMessage}}
   </div>
   <div class="container">
   <div class="row my-4">
@@ -28,6 +27,4 @@
         </div>
       </div>
   </div>
-</div>
- 
-</div>        
+      

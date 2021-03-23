@@ -24,7 +24,12 @@ import { GlobalErrorHandlerService } from './global-error-handler.service';
     AdminModule,HttpClientModule,ReactiveFormsModule, NoopAnimationsModule,MaterialModule
    
   ],
-  providers: [  { provide: HTTP_INTERCEPTORS,    useClass: GlobalHttpInterceptorService,    multi: true  },
+  providers: [  
+        { provide: HTTP_INTERCEPTORS,
+            useClass: GlobalHttpInterceptorService,   
+             multi: true  
+        },
+      
     ],
   bootstrap: [AppComponent]
 })

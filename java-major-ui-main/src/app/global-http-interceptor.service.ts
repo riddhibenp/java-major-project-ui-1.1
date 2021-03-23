@@ -1,29 +1,29 @@
-import { HttpEvent, HttpHandler, HttpRequest,HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class GlobalHttpInterceptorService implements ErrorHandler{
-
-  constructor(public router: Router) { }
-  handleError(error: any): void {
-    throw new Error('Method not implemented.');
-  }
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
- 
-    return next.handle(req).pipe(
+import { catchError, map } from 'rxjs/operators';
+export class GlobalHttpInterceptorService implements HttpInterceptor {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    
+    return next.handle(request).pipe(
+      map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            
+              console.log('event--->>>', event);
+          }
+          return event;
+      }),
       catchError((error: HttpErrorResponse) => {
-        console.log('error in intercept')
-        console.error(error);
-        return throwError(error.message);
-      })
-    )
+        console.log('working here...')
+          let data = {};
+          data = {
+              reason: error && error.error && error.error.reason ? error.error.reason : '',
+              status: error.status
+          };
+          alert(data);
+          return throwError(error);
+      }));
   }
-
-
 }
+
+
+

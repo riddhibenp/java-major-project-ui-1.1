@@ -19,6 +19,7 @@ export class ViewCategoryComponent implements OnInit {
  categoryById:any
   search=""
   errorMessage!:String;
+  loading!: boolean;
   constructor(private as: AdminService,private router: Router,public dialog: MatDialog) { 
   }
   
@@ -66,8 +67,6 @@ export class ViewCategoryComponent implements OnInit {
    
     this.as.getCategories()
     .subscribe((data)=>{
-      
-      
       this.categories=data;
       console.log(this.categories);
       
@@ -75,7 +74,8 @@ export class ViewCategoryComponent implements OnInit {
     (err)=>{
       console.log('Error is:',err);
       this.errorMessage = err;
-      throw err;
+      // this.loading = false;
+      //throw err;
     });
   }
 }
